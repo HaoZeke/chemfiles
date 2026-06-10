@@ -31,6 +31,7 @@
 #include "chemfiles/formats/Tinker.hpp"
 #include "chemfiles/formats/PDB.hpp"
 #include "chemfiles/formats/XYZ.hpp"
+#include "chemfiles/formats/CON.hpp"
 #include "chemfiles/formats/SDF.hpp"
 #include "chemfiles/formats/TNG.hpp"
 #include "chemfiles/formats/MMTF.hpp"
@@ -91,6 +92,7 @@ FormatFactory::FormatFactory() {
     this->add_format<TRRFormat>();
     this->add_format<XTCFormat>();
     this->add_format<XYZFormat>();
+    this->add_format<CONFormat>();
 }
 
 FormatFactory& FormatFactory::get() {

@@ -86,8 +86,14 @@ add_subdirectory(external)
 # implementation and is linked into both the main chemfiles library and the
 # unit tests.
 file(GLOB_RECURSE chemfiles_objects_sources src/**.cpp)
+
+# --- readcon-core (vendored, prebuilt) ---
+set(READCON_ROOT "/testbed/readcon-core" CACHE PATH "vendored readcon-core")
+set(READCON_INCLUDE "${READCON_ROOT}/include")
+set(READCON_LIB "${READCON_ROOT}/target/release/libreadcon_core.a")
 add_library(chemfiles_objects OBJECT ${chemfiles_objects_sources})
 target_compile_features(chemfiles_objects PRIVATE cxx_std_17 c_std_99)
+target_include_directories(chemfiles_objects SYSTEM BEFORE PRIVATE ${READCON_INCLUDE})
 
 target_include_directories(chemfiles_objects SYSTEM BEFORE PRIVATE ${EXTERNAL_INCLUDES})
 target_include_directories(chemfiles_objects SYSTEM BEFORE PRIVATE ${ZLIB_INCLUDE_DIRS} ${LIBLZMA_INCLUDE_DIRS})
@@ -172,9 +178,11 @@ target_include_directories(chemfiles PUBLIC
 )
 
 target_link_libraries(chemfiles
+    ${READCON_LIB}
     ${ZLIB_LIBRARIES}
     ${LIBLZMA_LIBRARY}
     ${BZIP2_LIBRARIES}
+    pthread dl m
 )
 
 if(WIN32)
